@@ -30,7 +30,7 @@ public class CurrencyRates {
     Long currentTimeMillis = System.currentTimeMillis();
     if (!currency.equals(selectedCurrency) || currentTimeMillis - lastUpdateTimeMillis >= ttlMillis) {
       rates = repository.findAll(CurrencyRateRepository.Specs.lastByDestinationCurrency(currency)).stream()
-        .collect(Collectors.toMap(CurrencyRateEntity::getToCurrency, CurrencyRateEntity::getRate));
+        .collect(Collectors.toMap(CurrencyRateEntity::getFromCurrency, CurrencyRateEntity::getRate));
       selectedCurrency = currency;
       lastUpdateTimeMillis = currentTimeMillis;
     }

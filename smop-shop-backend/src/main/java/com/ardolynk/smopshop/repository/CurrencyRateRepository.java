@@ -14,18 +14,18 @@ public interface CurrencyRateRepository extends JpaRepository<CurrencyRateEntity
   JpaSpecificationExecutor<CurrencyRateEntity> {
 
   interface Specs {
-    static Specification<CurrencyRateEntity> lastByDestinationCurrency(String toCurrencyId) {
+    static Specification<CurrencyRateEntity> lastByDestinationCurrency(String toCurrency) {
       return (root, query, cb) -> {
         @SuppressWarnings("null")
         Subquery<CurrencyRateEntity> subquery = query.subquery(CurrencyRateEntity.class);
         var subRoot = subquery.from(CurrencyRateEntity.class);
 
         return cb.and(
-          cb.equal(root.get("toCurrencyId"), toCurrencyId),
+          cb.equal(root.get("toCurrency"), toCurrency),
           cb.not(cb.exists(
             subquery.where(cb.and(
-              cb.equal(subRoot.get("fromCurrencyId"), root.get("fromCurrencyId")),
-              cb.equal(subRoot.get("toCurrencyId"), toCurrencyId),
+              cb.equal(subRoot.get("fromCurrency"), root.get("fromCurrency")),
+              cb.equal(subRoot.get("toCurrency"), toCurrency),
               cb.greaterThan(subRoot.get("since"), root.get("since"))
             ))))
         );
