@@ -22,6 +22,7 @@ public class ProductService {
   private final ProductRepository productRepository;
 
   public ProductPage getProducts(int pageNum, int pageSize, String requestUrl, UriComponentsBuilder uriBuilder) {
+    String baseUri = uriBuilder.build().toString();
     Page<ProductEntity> page = productRepository.findAll(PageRequest.of(pageNum, pageSize));
     List<ProductModel> products = page.stream()
         .map(entity -> ProductModel.builder()
@@ -31,17 +32,24 @@ public class ProductService {
           .amount(entity.getAmount())
           .price(entity.getPrice())
           .currency(entity.getCurrency())
-          .imageUrl(String.format("/images/img_%d.jpg", entity.getId()))
-          .thumbnailUrl(String.format("/thumbnails/thumb_%d.jpg", entity.getId()))
+          .imageUrl(constructGlobalUri(UriComponentsBuilder.fromUriString(baseUri),
+            String.format("/images/img_%d.jpg", entity.getId())))
+          .thumbnailUrl(constructGlobalUri(UriComponentsBuilder.fromUriString(baseUri),
+            String.format("/thumbnails/thumb_%d.jpg", entity.getId())))
         .build()
         ).toList();
       
       ProductPage.ProductPageBuilder responseBuilder = ProductPage.builder().products(products);
       if (page.hasNext()) {
         Pageable nextPage = page.nextPageable();
-        responseBuilder.next(constructNextPageUri(uriBuilder, requestUrl, nextPage.getPageNumber(), nextPage.getPageSize()));
+        responseBuilder.next(constructNextPageUri(UriComponentsBuilder.fromUriString(baseUri), requestUrl,
+          nextPage.getPageNumber(), nextPage.getPageSize()));
       }
       return responseBuilder.build();
+  }
+
+  private String constructGlobalUri(UriComponentsBuilder uriBuilder, String localUri) {
+    return uriBuilder.path(localUri).build().encode().toUriString();
   }
 
   private String constructNextPageUri(UriComponentsBuilder uriBuilder, String requestUrl, int nextPage, int nextSize) {
@@ -51,5 +59,6 @@ public class ProductService {
       .build()
       .encode()
       .toUriString();
-}
+  }
+
 }
