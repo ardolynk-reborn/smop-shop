@@ -2,7 +2,7 @@ spring:
   application:
     name: smopshop
   datasource:
-    url: jdbc:mysql://localhost:3306/smopshop
+    url: jdbc:mysql://mysql:3306/smopshop
     username: smopshop
     password: smopshop
     driver-class-name: com.mysql.cj.jdbc.Driver

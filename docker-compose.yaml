@@ -13,6 +13,17 @@ services:
       - db_data:/var/lib/mysql
     ports:
       - "3306:3306"
-  
+
+  smop-shop-backend:
+    build: ./smop-shop-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    # environment:
+    #   DATABASE_URL: 'jdbc:mysql://mysql:3306/smopshop'
+    #   DATABASE_USERNAME: 'smopshop'
+    #   DATABASE_PASSWORD: 'smopshop'
+
 volumes:
   db_data:
