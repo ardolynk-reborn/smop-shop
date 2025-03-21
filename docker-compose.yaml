@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=p@ssw0rd
+      - MYSQL_DATABASE=smopshop
+      - MYSQL_USER=smopshop
+      - MYSQL_PASSWORD=smopshop
+    volumes:
+      - ./db_init.sql:/docker-entrypoint-initdb.d/db_init.sql
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  
+volumes:
+  db_data:
