@@ -1,13 +1,16 @@
 import { View, Text, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native'
 import React, { useContext } from 'react'
-import { ProductContext } from '../providers/ProductProvider';
-import ProductListItem from '../components/ProductListItem';
-import { CurrencyContext } from '../providers/CurrencyProvider';
+import { ProductContext, ProductType } from '../../providers/ProductProvider';
+import ProductListItem from '../../components/ProductListItem';
+import { CurrencyContext } from '../../providers/CurrencyProvider';
+import { useNavigation } from 'expo-router';
+import { ProductStackParamList } from './navigation';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-export default function index({ navigation }: { navigation: any }) {
+export default function IndexScreen() {
 
   const { products, next, bottomReached, setBottomReached, error, loading } = useContext(ProductContext);
-  const {selectedCurrency, rates} = useContext(CurrencyContext);
+  const { selectedCurrency, rates } = useContext(CurrencyContext);
 
   const renderFooter = () => {
     return next ? (
@@ -28,9 +31,9 @@ export default function index({ navigation }: { navigation: any }) {
       <FlatList
         data={products}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('details', { product: item })}>
-            <ProductListItem product={item} selectedCurrency={selectedCurrency} rates={rates} />
-          </TouchableOpacity>
+          // <TouchableOpacity onPress={() => {navigation.navigate('detail', item)}}>
+          <ProductListItem product={item} selectedCurrency={selectedCurrency} rates={rates} />
+          // </TouchableOpacity>
         )}
         keyExtractor={(item) => item.id.toString()}
 
@@ -40,4 +43,8 @@ export default function index({ navigation }: { navigation: any }) {
       />
     </View>
   );
+}
+
+function createStackNavigation<T>() {
+  throw new Error('Function not implemented.');
 }

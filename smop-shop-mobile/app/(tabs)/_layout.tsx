@@ -11,7 +11,7 @@ export default function _layout() {
         headerShown: false
       }}
     >
-      <Tabs.Screen name="index"
+      <Tabs.Screen name="(products)"
         options={{
           tabBarIcon: ({ size, color }) => <Ionicons name="storefront-outline" size={size} color={color}/>
         }}

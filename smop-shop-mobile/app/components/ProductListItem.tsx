@@ -3,11 +3,19 @@ import React, { useContext } from 'react'
 import { ProductType } from '../providers/ProductProvider';
 import { TouchableOpacity } from 'react-native';
 import { CurrencyContext } from '../providers/CurrencyProvider';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ProductStackParamList } from '../(tabs)/(products)/navigation';
+import { useNavigation } from 'expo-router';
+
+type NavigationProps = StackNavigationProp<ProductStackParamList, 'index'>
 
 export default function ProductListItem({product, selectedCurrency, rates}:
     {product: ProductType, selectedCurrency: string, rates: any}) {
+
+  const navigation = useNavigation<NavigationProps>();
+
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={() => { navigation.navigate('detail', product) }}>
       <Image source={{ uri: product.thumbnailUrl }} style={styles.thumbnail} />
       <View style={styles.infoContainer}>
         <Text style={styles.name}>{product.name}</Text>

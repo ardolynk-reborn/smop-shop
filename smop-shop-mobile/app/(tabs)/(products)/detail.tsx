@@ -1,29 +1,33 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
-import React from 'react'
-// import { ProductType } from '../../providers/ProductProvider'
-import { Ionicons } from '@expo/vector-icons';
+import React, { useContext } from 'react'
+import { RouteProp } from '@react-navigation/native';
+import { ProductStackParamList } from './navigation';
+import { CurrencyContext } from '@/app/providers/CurrencyProvider';
 
+type DetailScreenRouteProp = RouteProp<ProductStackParamList, 'detail'>;
 
-export default function details({ navigation, route}: {navigation: any, route: any}) {
+interface Route {
+  route: DetailScreenRouteProp;
+}
 
-  const product = route.params.product;
+const DetailScreen: React.FC<Route> = ({ route }) => {
+  
+  const { selectedCurrency, rates } = useContext(CurrencyContext);
+  const product = route.params;
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back-outline" size={24} color="#333" />
-        </TouchableOpacity>
-      </View>
       <View style={styles.content}>
-        <Text style={styles.name}>{product.name}</Text>
         <Text style={styles.description}>{product.description}</Text>
         <Image source={{ uri: product.imageUrl }} style={styles.image} />
         <View style={styles.priceContainer}>
-          <Text style={styles.price}>${product.price}</Text>
-          <Text style={styles.localPricePlaceholder}>Local price: _______</Text>
+          <Text style={styles.price}>{product.price} {product.currency}</Text>
+          <Text style={styles.amount}>Amount: {product.amount}</Text>
         </View>
-        <Text style={styles.amount}>Amount: {product.amount}</Text>
+        <Text style={styles.localPricePlaceholder}>
+          {product.currency === selectedCurrency ? '':
+            `${(product.price * rates[product.currency]).toFixed(2)} ${selectedCurrency}`}
+        </Text>
       </View>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.addToCartButton}>
@@ -37,31 +41,17 @@ export default function details({ navigation, route}: {navigation: any, route: a
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  header: {
-    height: 44,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
   },
   content: {
     flex: 1,
     padding: 20,
-  },
-  name: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
   },
   description: {
     fontSize: 16,
     marginBottom: 20,
   },
   image: {
-    width: 200,
-    height: 200,
+    flex: 1,
     resizeMode: 'contain',
     marginBottom: 20,
   },
@@ -87,8 +77,7 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
+    marginBottom: 20,
   },
   addToCartButton: {
     backgroundColor: '#4CAF50',
@@ -100,3 +89,5 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 });
+
+export default DetailScreen;
