@@ -14,7 +14,7 @@ services:
     ports:
       - "3306:3306"
 
-  smop-shop-backend:
+  backend:
     build: ./smop-shop-backend
     ports:
       - "8080:8080"
