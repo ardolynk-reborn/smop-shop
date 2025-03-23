@@ -3,6 +3,9 @@ import React, { useContext } from 'react'
 import { RouteProp } from '@react-navigation/native';
 import { ProductStackParamList } from './navigation';
 import { CurrencyContext } from '@/app/providers/CurrencyProvider';
+import { CartContext } from '@/app/providers/CartProvider';
+import Toast from 'react-native-toast-message';
+import { ProductType } from '@/app/providers/ProductProvider';
 
 type DetailScreenRouteProp = RouteProp<ProductStackParamList, 'detail'>;
 
@@ -14,7 +17,25 @@ const DetailScreen: React.FC<Route> = ({ route }) => {
   
   const { selectedCurrency, rates } = useContext(CurrencyContext);
   const product = route.params;
+  const { addToCart } = useContext(CartContext);
 
+  const addToCartAndReport = (product: ProductType) => {
+    const result = addToCart(product);
+    if (result === true) {
+      Toast.show({
+        type: 'success',
+        text1: 'Product added to cart',
+        position: 'top',
+      });
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Sorry, we don\'t have enough of this product',
+        position: 'top',
+      });
+    }
+  }
+  
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -30,10 +51,11 @@ const DetailScreen: React.FC<Route> = ({ route }) => {
         </Text>
       </View>
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.addToCartButton}>
+        <TouchableOpacity style={styles.addToCartButton} onPress={() => addToCartAndReport(product)}>
           <Text style={styles.addToCartButtonText}>Add to Cart</Text>
         </TouchableOpacity>
       </View>
+      <Toast />
     </View>
   );
 };

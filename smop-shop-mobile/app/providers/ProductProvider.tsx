@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { API_BASE_URL, PRODUCTS_PAGE_SIZE } from "../constants";
 
-export interface ProductInterface {
+export type ProductType = {
   id: number;
   name: string;
   description: string;
@@ -13,13 +13,14 @@ export interface ProductInterface {
 
 }
 interface ProductContextType {
-  products: ProductInterface[];
+  products: ProductType[];
   next: string | null;
   bottomReached: boolean;
   setBottomReached: (flag: boolean) => void;
   error: Error | null;
   loading: boolean;
 }
+
 
 export const ProductContext = createContext<ProductContextType>({
   products: [],
@@ -31,7 +32,7 @@ export const ProductContext = createContext<ProductContextType>({
 })
 
 const ProductProvider = ({ children }: { children: React.ReactNode } ) => {
-  const [products, setProducts] = useState<ProductInterface[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
   const [next, setNext] = useState<string | null>(`${API_BASE_URL}/products?size=${PRODUCTS_PAGE_SIZE}`);
   const [bottomReached, setBottomReached] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -64,4 +65,3 @@ const ProductProvider = ({ children }: { children: React.ReactNode } ) => {
 }
 
 export default ProductProvider
-export type { ProductInterface as ProductType }

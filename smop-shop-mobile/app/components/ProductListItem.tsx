@@ -1,11 +1,10 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
-import React, { useContext } from 'react'
 import { ProductType } from '../providers/ProductProvider';
 import { TouchableOpacity } from 'react-native';
-import { CurrencyContext } from '../providers/CurrencyProvider';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ProductStackParamList } from '../(tabs)/(products)/navigation';
 import { useNavigation } from 'expo-router';
+import ListItemCommon from './ListItemCommon';
 
 type NavigationProps = StackNavigationProp<ProductStackParamList, 'index'>
 
@@ -16,15 +15,7 @@ export default function ProductListItem({product, selectedCurrency, rates}:
 
   return (
     <TouchableOpacity style={styles.container} onPress={() => { navigation.navigate('detail', product) }}>
-      <Image source={{ uri: product.thumbnailUrl }} style={styles.thumbnail} />
-      <View style={styles.infoContainer}>
-        <Text style={styles.name}>{product.name}</Text>
-        <View style={styles.priceContainer}>
-          <Text style={styles.price}>{product.price} {product.currency}</Text>
-          <Text style={styles.localPricePlaceholder}>{selectedCurrency === product.currency ?
-            '' : `${(product.price * rates[product.currency]).toFixed(2)} ${selectedCurrency}`}</Text>
-        </View>
-      </View>
+      <ListItemCommon product={product} selectedCurrency={selectedCurrency} rates={rates} />
       <View style={styles.arrowContainer}>
         <Text style={styles.arrow}>→</Text>
       </View>

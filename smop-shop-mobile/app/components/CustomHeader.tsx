@@ -5,7 +5,7 @@ import { CurrencyContext } from '../providers/CurrencyProvider';
 
 const CustomHeader = (props: any) => {
 
-  const { currencies, selectedCurrency, setSelectedCurrency, error, loading } = useContext(CurrencyContext);
+  const { currencies, setSelectedCurrency, error, loading } = useContext(CurrencyContext);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);

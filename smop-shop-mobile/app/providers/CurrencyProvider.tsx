@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext } from 'react';
 import { API_BASE_URL } from '../constants';
 
-const apiBaseUrl = /*'http://192.168.31.111:8080';*/API_BASE_URL;
+const apiBaseUrl = API_BASE_URL;
 
 interface CurrencyContextType {
   currencies: any[];
@@ -12,7 +12,14 @@ interface CurrencyContextType {
   loading: boolean;
 }
 
-export const CurrencyContext = createContext<CurrencyContextType>({currencies: [], selectedCurrency: 'USD', setSelectedCurrency: () => {}, rates: {}, error: null, loading: false});
+export const CurrencyContext = createContext<CurrencyContextType>({
+  currencies: [],
+  selectedCurrency: 'USD',
+  setSelectedCurrency: () => {},
+  rates: {},
+  error: null,
+  loading: false
+});
 
 const CurrencyProvider = ({ children }: { children: React.ReactNode } ) => {
   const [currencies, setCurrencies] = useState([]);

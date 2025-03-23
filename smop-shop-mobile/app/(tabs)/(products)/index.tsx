@@ -1,15 +1,12 @@
-import { View, Text, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { View, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native'
 import React, { useContext } from 'react'
 import { ProductContext, ProductType } from '../../providers/ProductProvider';
 import ProductListItem from '../../components/ProductListItem';
 import { CurrencyContext } from '../../providers/CurrencyProvider';
-import { useNavigation } from 'expo-router';
-import { ProductStackParamList } from './navigation';
-import { StackNavigationProp } from '@react-navigation/stack';
 
 export default function IndexScreen() {
 
-  const { products, next, bottomReached, setBottomReached, error, loading } = useContext(ProductContext);
+  const { products, next, setBottomReached } = useContext(ProductContext);
   const { selectedCurrency, rates } = useContext(CurrencyContext);
 
   const renderFooter = () => {
