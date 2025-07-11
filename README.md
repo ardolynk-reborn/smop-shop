@@ -1,9 +1,7 @@
-# Smop Shop application (test assessment)
+# Smop Shop application
 
 ## Preface
-First of all I apologize for all these deployment complications I faced last minutes of the alloted time.
-That caused me to make extra commits (and even reuploads) after the last code changes. So I hope for your understanding.
-Also I'm interesting in continuation of a mobile part development, all changes will appear on a `dev` branch.
+This project has been initially developed as a quick test assessment. So it's rather an academic application rather than a real-life product.
 
 ## Instructions to install and run
 
@@ -27,10 +25,11 @@ npx expo
 ### What's done
 * A backend service providing a list of products and currency rates. There is also a method to check and confirm your order with final pricing calculation.
 * A mobile app shows the list of products with both official and local prices. The latter are calculated depending on a currency selected in a dropdown list.
+* You can browse product details and put it into your cart.
+* An order gets pre-calculated before sending. Then you get a confirmed receipt from server.
 
 ## What's still to do
-* Transition to detail form on the list. The form itself is already here, but I still haven't navigate to it.
-* A shopping cart functionality (add to cart option will be available on detail form)
-* Sending an order and processing the response "ready for confirmation"
+* User accounts
+* Further order processing (registering, payment, delivery, rejection)
+* Web frontend (only a mobile application is available yet)
 
-(these changes will be available as soon as possible)
